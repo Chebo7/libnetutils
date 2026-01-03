@@ -39,3 +39,32 @@
 
 # debug information files
 *.dwo
+build/cmake_install.cmake
+build/CMakeCache.txt
+build/Makefile
+build/test
+build/CMakeFiles/cmake.check_cache
+build/CMakeFiles/CMakeConfigureLog.yaml
+build/CMakeFiles/CMakeDirectoryInformation.cmake
+build/CMakeFiles/InstallScripts.json
+build/CMakeFiles/Makefile.cmake
+build/CMakeFiles/Makefile2
+build/CMakeFiles/progress.marks
+build/CMakeFiles/TargetDirectories.txt
+build/CMakeFiles/4.2.1/CMakeCCompiler.cmake
+build/CMakeFiles/4.2.1/CMakeCXXCompiler.cmake
+build/CMakeFiles/4.2.1/CMakeDetermineCompilerABI_C.bin
+build/CMakeFiles/4.2.1/CMakeDetermineCompilerABI_CXX.bin
+build/CMakeFiles/4.2.1/CMakeSystem.cmake
+build/CMakeFiles/4.2.1/CompilerIdC/CMakeCCompilerId.c
+build/CMakeFiles/4.2.1/CompilerIdCXX/CMakeCXXCompilerId.cpp
+build/CMakeFiles/test.dir/build.make
+build/CMakeFiles/test.dir/cmake_clean.cmake
+build/CMakeFiles/test.dir/compiler_depend.internal
+build/CMakeFiles/test.dir/compiler_depend.make
+build/CMakeFiles/test.dir/compiler_depend.ts
+build/CMakeFiles/test.dir/depend.make
+build/CMakeFiles/test.dir/DependInfo.cmake
+build/CMakeFiles/test.dir/flags.make
+build/CMakeFiles/test.dir/link.txt
+build/CMakeFiles/test.dir/progress.make
