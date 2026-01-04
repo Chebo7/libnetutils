@@ -15,5 +15,7 @@ std::vector<std::string> NetUtils::Ipv4NetworkInterfaces() {
     }
   }
 
+  freeifaddrs(ifaddr);
+
   return interfaces;
 }
