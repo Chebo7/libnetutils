@@ -10,7 +10,8 @@ option(BUILD_SHARED_LIBS "Build shared library" ON)
 add_library(netutils
     src/Ipv4NetworkInterfaces.cpp
     src/Ipv6NetworkInterfaces.cpp
-    src/NetworkInterfaceAddress.cpp
+    src/Ipv4InterfaceAddress.cpp
+    src/Ipv6InterfaceAddress.cpp
 )
 
 target_include_directories(netutils
@@ -26,7 +27,7 @@ endif()
 set_target_properties(netutils PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/netutils/Ipv4NetworkInterfaces.hpp;include/netutils/Ipv6NetworkInterfaces.hpp;include/netutils/NetworkInterfaceAddress.hpp"
+    PUBLIC_HEADER "include/netutils/Ipv4NetworkInterfaces.hpp;include/netutils/Ipv6NetworkInterfaces.hpp;include/netutils/Ipv4InterfaceAddress.hpp;include/netutils/Ipv6InterfaceAddress.hpp"
 )
 
 install(TARGETS netutils
