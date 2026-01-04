@@ -1,4 +1,5 @@
 #include "../include/netutils/Ipv6NetworkInterfaces.hpp"
+#include <ifaddrs.h>
 
 std::vector<std::string> NetUtils::Ipv6NetworkInterfaces() {
   struct ifaddrs *ifaddr, *ifa;
@@ -14,6 +15,8 @@ std::vector<std::string> NetUtils::Ipv6NetworkInterfaces() {
       interfaces.emplace_back(ifa->ifa_name);
     }
   }
+
+  freeifaddrs(ifaddr);
 
   return interfaces;
 }
