@@ -6,6 +6,7 @@ std::vector<std::string> NetUtils::Ipv6NetworkInterfaces() {
 
   if (getifaddrs(&ifaddr) == -1) {
     throw "Unable to get network interfaces";
+    freeifaddrs(ifaddr);
   }
 
   std::vector<std::string> interfaces;
