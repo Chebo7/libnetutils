@@ -1,6 +1,6 @@
 #include "../include/netutils/Ipv6InterfaceAddress.hpp"
 
-std::string NetUtils::Ipv6InterfaceAddress(std::string interface) {
+std::string NetUtils::Ipv6InterfaceAddress(const std::string interface) {
 
   struct ifaddrs *ifaddr, *ifa;
 

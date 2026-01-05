@@ -9,5 +9,5 @@
 #include <sys/types.h>
 
 namespace NetUtils {
-std::string Ipv4InterfaceAddress(std::string interface);
+std::string Ipv4InterfaceAddress(const std::string interface);
 }

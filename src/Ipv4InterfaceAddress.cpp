@@ -1,6 +1,6 @@
 #include "../include/netutils/Ipv4InterfaceAddress.hpp"
 
-std::string NetUtils::Ipv4InterfaceAddress(std::string interface) {
+std::string NetUtils::Ipv4InterfaceAddress(const std::string interface) {
 
   struct ifaddrs *ifaddr, *ifa;
 
