@@ -10,5 +10,5 @@
 #include <unistd.h>
 
 namespace NetUtils {
-std::string Ipv4MacAddress(std::string interface);
+std::string Ipv4MacAddress(const std::string interface);
 }
