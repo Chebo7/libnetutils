@@ -23,8 +23,7 @@ std::string NetUtils::Ipv4MacAddress(std::string interface) {
   unsigned char *mac =
       reinterpret_cast<unsigned char *>(ifr.ifr_ifru.ifru_hwaddr.sa_data);
 
-  std::string macAddress =
-      std::format("{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}", mac[0], mac[1],
-                  mac[2], mac[3], mac[4], mac[5]);
-  return macAddress;
+  return std::string(std::format("{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}",
+                                 mac[0], mac[1], mac[2], mac[3], mac[4],
+                                 mac[5]));
 }
