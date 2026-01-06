@@ -12,6 +12,7 @@ add_library(netutils
     src/Ipv6NetworkInterfaces.cpp
     src/Ipv4InterfaceAddress.cpp
     src/Ipv6InterfaceAddress.cpp
+    src/Ipv4MacAddress.cpp
 )
 
 target_include_directories(netutils
@@ -27,7 +28,7 @@ endif()
 set_target_properties(netutils PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/netutils/Ipv4NetworkInterfaces.hpp;include/netutils/Ipv6NetworkInterfaces.hpp;include/netutils/Ipv4InterfaceAddress.hpp;include/netutils/Ipv6InterfaceAddress.hpp"
+    PUBLIC_HEADER "include/netutils/Ipv4NetworkInterfaces.hpp;include/netutils/Ipv6NetworkInterfaces.hpp;include/netutils/Ipv4InterfaceAddress.hpp;include/netutils/Ipv6InterfaceAddress.hpp;include/netutils/Ipv4MacAddress.hpp"
 )
 
 install(TARGETS netutils
