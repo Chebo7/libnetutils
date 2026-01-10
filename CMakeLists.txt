@@ -8,13 +8,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(BUILD_SHARED_LIBS "Build shared library" ON)
 
 add_library(netutils
-    src/Ipv4NetworkInterfaces.cpp
-    src/Ipv6NetworkInterfaces.cpp
-    src/Ipv4InterfaceAddress.cpp
-    src/Ipv6InterfaceAddress.cpp
-    src/Ipv4MacAddress.cpp
-    src/Ipv6MacAddress.cpp
-    src/Ipv4NetMask.cpp
+    src/IPv4/Ipv4NetworkInterfaces.cpp
+    src/IPv6/Ipv6NetworkInterfaces.cpp
+    src/IPv4/Ipv4InterfaceAddress.cpp
+    src/IPv6/Ipv6InterfaceAddress.cpp
+    src/IPv4/Ipv4MacAddress.cpp
+    src/IPv6/Ipv6MacAddress.cpp
+    src/IPv4/Ipv4NetMask.cpp
+    
 )
 
 target_include_directories(netutils
@@ -30,7 +31,7 @@ endif()
 set_target_properties(netutils PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/netutils/Ipv4NetworkInterfaces.hpp;include/netutils/Ipv6NetworkInterfaces.hpp;include/netutils/Ipv4InterfaceAddress.hpp;include/netutils/Ipv6InterfaceAddress.hpp;include/netutils/Ipv4MacAddress.hpp;include/netutils/Ipv6MacAddress.hpp;include/netutils/Ipv4NetMask.hpp"
+    PUBLIC_HEADER "include/netutils/IPv4/Ipv4NetworkInterfaces.hpp;include/netutils/IPv6/Ipv6NetworkInterfaces.hpp;include/netutils/IPv4/Ipv4InterfaceAddress.hpp;include/netutils/IPv6/Ipv6InterfaceAddress.hpp;include/netutils/IPv4/Ipv4MacAddress.hpp;include/netutils/IPv6/Ipv6MacAddress.hpp;include/netutils/IPv4/Ipv4NetMask.hpp"
 )
 
 install(TARGETS netutils
