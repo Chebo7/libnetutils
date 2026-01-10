@@ -1,7 +1,7 @@
-#include "../include/netutils/IPv4/Ipv4MacAddress.hpp"
+#include "../../include/netutils/IPv6/Ipv6MacAddress.hpp"
 
-std::string NetUtils::Ipv4MacAddress(const std::string interface) {
-  int sock = socket(AF_INET, SOCK_DGRAM, 0);
+std::string NetUtils::Ipv6MacAddress(const std::string interface) {
+  int sock = socket(AF_INET6, SOCK_DGRAM, 0);
 
   if (sock == -1) {
     throw std::runtime_error("Error to create socket");

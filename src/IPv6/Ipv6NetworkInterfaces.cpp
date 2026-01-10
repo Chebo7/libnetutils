@@ -1,4 +1,4 @@
-#include "../include/netutils/Ipv6NetworkInterfaces.hpp"
+#include "../../include/netutils/IPv6/Ipv6NetworkInterfaces.hpp"
 
 std::vector<std::string> NetUtils::Ipv6NetworkInterfaces() {
   struct ifaddrs *ifaddr, *ifa;

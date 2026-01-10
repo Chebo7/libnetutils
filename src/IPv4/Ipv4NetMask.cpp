@@ -1,4 +1,4 @@
-#include "../include/netutils/Ipv4NetMask.hpp"
+#include "../../include/netutils/IPv4/Ipv4NetMask.hpp"
 
 std::string NetUtils::Ipv4NetMask(const std::string interface) {
   int sock = socket(AF_INET, SOCK_DGRAM, 0);
