@@ -11,5 +11,7 @@
 #include <unistd.h>
 
 namespace NetUtils {
+namespace IPv4 {
 std::string Ipv4NetMask(const std::string interface);
+}
 } // namespace NetUtils

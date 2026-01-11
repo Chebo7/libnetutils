@@ -1,6 +1,6 @@
 #include "../../include/netutils/IPv6/Ipv6MacAddress.hpp"
 
-std::string NetUtils::Ipv6MacAddress(const std::string interface) {
+std::string NetUtils::IPv6::Ipv6MacAddress(const std::string interface) {
   int sock = socket(AF_INET6, SOCK_DGRAM, 0);
 
   if (sock == -1) {

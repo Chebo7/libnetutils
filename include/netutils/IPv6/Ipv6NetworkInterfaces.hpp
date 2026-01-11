@@ -5,5 +5,8 @@
 #include <vector>
 
 namespace NetUtils {
+namespace IPv6 {
 std::vector<std::string> Ipv6NetworkInterfaces();
 }
+
+} // namespace NetUtils

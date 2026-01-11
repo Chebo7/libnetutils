@@ -5,5 +5,7 @@
 #include <vector>
 
 namespace NetUtils {
+namespace IPv4 {
 std::vector<std::string> Ipv4NetworkInterfaces();
 }
+} // namespace NetUtils

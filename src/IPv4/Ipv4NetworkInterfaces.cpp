@@ -1,11 +1,11 @@
 #include "../../include/netutils/IPv4/Ipv4NetworkInterfaces.hpp"
 
-std::vector<std::string> NetUtils::Ipv4NetworkInterfaces() {
+std::vector<std::string> NetUtils::IPv4::Ipv4NetworkInterfaces() {
   struct ifaddrs *ifaddr, *ifa;
 
   if (getifaddrs(&ifaddr) == -1) {
     freeifaddrs(ifaddr);
-    throw "Unable to get network interfaces"; 
+    throw "Unable to get network interfaces";
   }
 
   std::vector<std::string> interfaces;

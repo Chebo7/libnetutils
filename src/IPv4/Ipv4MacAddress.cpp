@@ -1,6 +1,6 @@
 #include "../../include/netutils/IPv4/Ipv4MacAddress.hpp"
 
-std::string NetUtils::Ipv4MacAddress(const std::string interface) {
+std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
   int sock = socket(AF_INET, SOCK_DGRAM, 0);
 
   if (sock == -1) {

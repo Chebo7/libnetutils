@@ -1,6 +1,6 @@
 #include "../../include/netutils/IPv6/Ipv6NetworkInterfaces.hpp"
 
-std::vector<std::string> NetUtils::Ipv6NetworkInterfaces() {
+std::vector<std::string> NetUtils::IPv6::Ipv6NetworkInterfaces() {
   struct ifaddrs *ifaddr, *ifa;
 
   if (getifaddrs(&ifaddr) == -1) {

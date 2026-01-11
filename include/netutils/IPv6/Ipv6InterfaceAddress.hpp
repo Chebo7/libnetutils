@@ -9,5 +9,7 @@
 #include <sys/types.h>
 
 namespace NetUtils {
+namespace IPv6 {
 std::string Ipv6InterfaceAddress(const std::string interface);
 }
+} // namespace NetUtils
