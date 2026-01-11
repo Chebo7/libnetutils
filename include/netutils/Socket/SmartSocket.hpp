@@ -14,6 +14,8 @@ public:
   SmartSocket &operator=(SmartSocket &&) = default;
   ~SmartSocket();
 
+  operator int() const;
+
   int getFd() { return fd; }
 };
 } // namespace Socket
