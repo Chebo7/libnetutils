@@ -16,7 +16,7 @@ add_library(netutils
     src/IPv6/Ipv6MacAddress.cpp
     src/IPv4/Ipv4NetMask.cpp
     src/Socket/SmartSocket.cpp
-    
+    src/IPv4/Ipv4IndexInterface.cpp
 )
 
 target_include_directories(netutils
@@ -32,7 +32,7 @@ endif()
 set_target_properties(netutils PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/netutils/IPv4/Ipv4NetworkInterfaces.hpp;include/netutils/IPv6/Ipv6NetworkInterfaces.hpp;include/netutils/IPv4/Ipv4InterfaceAddress.hpp;include/netutils/IPv6/Ipv6InterfaceAddress.hpp;include/netutils/IPv4/Ipv4MacAddress.hpp;include/netutils/IPv6/Ipv6MacAddress.hpp;include/netutils/IPv4/Ipv4NetMask.hpp;include/netutils/Socket/SmartSocket.hpp"
+    PUBLIC_HEADER "include/netutils/IPv4/Ipv4NetworkInterfaces.hpp;include/netutils/IPv6/Ipv6NetworkInterfaces.hpp;include/netutils/IPv4/Ipv4InterfaceAddress.hpp;include/netutils/IPv6/Ipv6InterfaceAddress.hpp;include/netutils/IPv4/Ipv4MacAddress.hpp;include/netutils/IPv6/Ipv6MacAddress.hpp;include/netutils/IPv4/Ipv4NetMask.hpp;include/netutils/Socket/SmartSocket.hpp;include/netutils/IPv4/Ipv4IndexInterface.hpp"
 )
 
 install(TARGETS netutils
