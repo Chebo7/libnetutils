@@ -8,10 +8,10 @@ private:
 
 public:
   SmartSocket(int domain, int type, int protocol);
-  SmartSocket(const SmartSocket &) = default;
-  SmartSocket(SmartSocket &&) = default;
-  SmartSocket &operator=(const SmartSocket &) = default;
-  SmartSocket &operator=(SmartSocket &&) = default;
+  SmartSocket(const SmartSocket &) = delete;
+  SmartSocket(SmartSocket &&) = delete;
+  SmartSocket &operator=(const SmartSocket &) = delete;
+  SmartSocket &operator=(SmartSocket &&) = delete;
   ~SmartSocket();
 
   operator int() const;
