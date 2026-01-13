@@ -25,7 +25,8 @@ std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
   }
 
   if (ipv6Addr == nullptr) {
-    std::runtime_error("The interface has no address");
+    freeifaddrs(ifaddr);
+    throw std::runtime_error("The interface has no address");
   }
 
   char ipStr[INET6_ADDRSTRLEN];
