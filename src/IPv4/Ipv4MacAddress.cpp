@@ -1,4 +1,5 @@
 #include "../../include/netutils/IPv4/Ipv4MacAddress.hpp"
+#include "../../include/netutils/Socket/SmartSocket.hpp"
 
 std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
 
@@ -10,7 +11,7 @@ std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
     throw std::runtime_error("Ipv4MacAddress: Interface name too large");
   }
 
-  int sock = socket(AF_INET, SOCK_DGRAM, 0);
+  NetUtils::Socket::SmartSocket sock(AF_INET, SOCK_DGRAM, 0);
 
   if (sock == -1) {
     throw std::runtime_error("Ipv4MacAddress: Error to create socket");
@@ -47,8 +48,6 @@ std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
       throw std::runtime_error("Ipv4IndexInterface: " + std::to_string(errno));
     }
   }
-
-  close(sock);
 
   unsigned char *mac =
       reinterpret_cast<unsigned char *>(ifr.ifr_ifru.ifru_hwaddr.sa_data);
