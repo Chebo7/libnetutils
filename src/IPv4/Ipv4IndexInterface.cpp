@@ -2,6 +2,15 @@
 #include "../../include/netutils/Socket/SmartSocket.hpp"
 
 int NetUtils::IPv4::Ipv4IndexInterface(std::string interface) {
+
+  if (interface.empty()) {
+    throw std::runtime_error("Ipv4IndexInterface: The interface name is empty");
+  }
+
+  if (interface.size() >= IFNAMSIZ) {
+    throw std::runtime_error("Ipv4IndexInterface: Interface name too large");
+  }
+
   NetUtils::Socket::SmartSocket sock(AF_INET, SOCK_DGRAM, 0);
 
   if (sock == -1) {
@@ -10,14 +19,6 @@ int NetUtils::IPv4::Ipv4IndexInterface(std::string interface) {
 
   struct ifreq ifr;
   memset(&ifr, 0, sizeof(ifr));
-
-  if (interface.size() >= IFNAMSIZ) {
-    throw std::runtime_error("Ipv4IndexInterface: Interface name too large");
-  }
-
-  if (interface.empty()) {
-    throw std::runtime_error("Ipv4IndexInterface: Interface name too small");
-  }
 
   strncpy(ifr.ifr_ifrn.ifrn_name, interface.c_str(), IFNAMSIZ);
 

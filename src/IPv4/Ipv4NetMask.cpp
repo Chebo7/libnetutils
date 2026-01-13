@@ -1,7 +1,11 @@
 #include "../../include/netutils/IPv4/Ipv4NetMask.hpp"
+#include "../../include/netutils/Socket/SmartSocket.hpp"
+#include <sys/socket.h>
 
 std::string NetUtils::IPv4::Ipv4NetMask(const std::string interface) {
-  int sock = socket(AF_INET, SOCK_DGRAM, 0);
+  // int sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+  NetUtils::Socket::SmartSocket sock(AF_INET, SOCK_DGRAM, 0);
 
   if (sock == -1) {
     throw std::runtime_error("Error to create socket");
@@ -14,11 +18,8 @@ std::string NetUtils::IPv4::Ipv4NetMask(const std::string interface) {
   ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
 
   if (ioctl(sock, SIOCGIFNETMASK, &ifr) == -1) {
-    close(sock);
     throw std::runtime_error("Error to get netmask");
   }
-
-  close(sock);
 
   struct sockaddr_in *sckddr =
       reinterpret_cast<struct sockaddr_in *>(&ifr.ifr_ifru.ifru_netmask);

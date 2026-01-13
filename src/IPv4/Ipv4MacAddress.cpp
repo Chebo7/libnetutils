@@ -1,10 +1,20 @@
 #include "../../include/netutils/IPv4/Ipv4MacAddress.hpp"
+#include "../../include/netutils/Socket/SmartSocket.hpp"
 
 std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
-  int sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+  if (interface.empty()) {
+    throw std::runtime_error("Ipv4MacAddress: The interface name is empty");
+  }
+
+  if (interface.size() >= IFNAMSIZ) {
+    throw std::runtime_error("Ipv4MacAddress: Interface name too large");
+  }
+
+  NetUtils::Socket::SmartSocket sock(AF_INET, SOCK_DGRAM, 0);
 
   if (sock == -1) {
-    throw std::runtime_error("Error to create socket");
+    throw std::runtime_error("Ipv4MacAddress: Error to create socket");
   }
 
   struct ifreq ifr;
@@ -14,11 +24,30 @@ std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
   ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
 
   if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
-    close(sock);
-    throw std::runtime_error("Error to get mac address");
-  }
+    switch (errno) {
+    case EBADF:
+      throw std::runtime_error("Ipv4IndexInterface: Bad file descriptor");
 
-  close(sock);
+    case EFAULT:
+      throw std::runtime_error("Ipv4IndexInterface: Bad address");
+
+    case EINVAL:
+      throw std::runtime_error("Ipv4IndexInterface: Invalid argument");
+
+    case ENODEV:
+      throw std::runtime_error("Ipv4IndexInterface: No such device");
+
+    case ENOTTY:
+      throw std::runtime_error(
+          "Ipv4IndexInterface: Inappropriate ioctl for device");
+
+    case ENXIO:
+      throw std::runtime_error("Ipv4IndexInterface: No such device or address");
+
+    default:
+      throw std::runtime_error("Ipv4IndexInterface: " + std::to_string(errno));
+    }
+  }
 
   unsigned char *mac =
       reinterpret_cast<unsigned char *>(ifr.ifr_ifru.ifru_hwaddr.sa_data);
