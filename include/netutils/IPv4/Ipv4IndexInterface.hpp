@@ -1,7 +1,9 @@
 #pragma once
+#include <cerrno>
 #include <cstring>
 #include <linux/sockios.h>
 #include <net/if.h>
+#include <print>
 #include <stdexcept>
 #include <string>
 #include <sys/ioctl.h>
