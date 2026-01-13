@@ -62,7 +62,6 @@ int NetUtils::IPv4::Ipv4IndexInterface(std::string interface) {
     default:
       throw std::runtime_error("Ipv4IndexInterface: " + std::to_string(errno));
     }
-    errno
   }
 
   return ifr.ifr_ifru.ifru_ivalue;
