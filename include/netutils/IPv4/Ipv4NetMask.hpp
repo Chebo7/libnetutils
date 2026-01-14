@@ -1,6 +1,8 @@
 #pragma once
 #include <arpa/inet.h>
+#include <cerrno>
 #include <cstring>
+#include <format>
 #include <linux/sockios.h>
 #include <net/if.h>
 #include <netinet/in.h>
