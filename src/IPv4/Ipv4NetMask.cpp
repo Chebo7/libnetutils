@@ -3,7 +3,6 @@
 #include <sys/socket.h>
 
 std::string NetUtils::IPv4::Ipv4NetMask(const std::string interface) {
-  // int sock = socket(AF_INET, SOCK_DGRAM, 0);
 
   NetUtils::Socket::SmartSocket sock(AF_INET, SOCK_DGRAM, 0);
 
