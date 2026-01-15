@@ -26,26 +26,27 @@ std::string NetUtils::IPv4::Ipv4MacAddress(const std::string interface) {
   if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
     switch (errno) {
     case EBADF:
-      throw std::runtime_error("Ipv4IndexInterface: Bad file descriptor");
+      throw std::runtime_error("Ipv4MacAddress: Bad file descriptor");
 
     case EFAULT:
-      throw std::runtime_error("Ipv4IndexInterface: Bad address");
+      throw std::runtime_error("Ipv4MacAddress: Bad address");
 
     case EINVAL:
-      throw std::runtime_error("Ipv4IndexInterface: Invalid argument");
+      throw std::runtime_error("Ipv4MacAddress: Invalid argument");
 
     case ENODEV:
-      throw std::runtime_error("Ipv4IndexInterface: No such device");
+      throw std::runtime_error("Ipv4MacAddress: No such device");
 
     case ENOTTY:
       throw std::runtime_error(
-          "Ipv4IndexInterface: Inappropriate ioctl for device");
+          "Ipv4MacAddress: Inappropriate ioctl for device");
 
     case ENXIO:
-      throw std::runtime_error("Ipv4IndexInterface: No such device or address");
+      throw std::runtime_error("Ipv4MacAddress: No such device or address");
 
     default:
-      throw std::runtime_error("Ipv4IndexInterface: " + std::to_string(errno));
+      throw std::runtime_error(
+          std::format("Ipv4MacAddress: {}", std::to_string(errno)));
     }
   }
 
