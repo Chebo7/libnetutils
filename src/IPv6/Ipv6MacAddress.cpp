@@ -3,10 +3,18 @@
 
 std::string NetUtils::IPv6::Ipv6MacAddress(const std::string interface) {
 
+  if (interface.empty()) {
+    throw std::runtime_error("Ipv6MacAddress: The interface name is empty");
+  }
+
+  if (interface.size() >= IFNAMSIZ) {
+    throw std::runtime_error("Ipv6MacAddress: Interface name too large");
+  }
+
   NetUtils::Socket::SmartSocket sock(AF_INET6, SOCK_DGRAM, 0);
 
   if (sock == -1) {
-    throw std::runtime_error("Error to create socket");
+    throw std::runtime_error("Ipv6MacAddress: Error to create socket");
   }
 
   struct ifreq ifr;
@@ -16,7 +24,29 @@ std::string NetUtils::IPv6::Ipv6MacAddress(const std::string interface) {
   ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
 
   if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
-    throw std::runtime_error("Error to get mac address");
+    switch (errno) {
+    case EBADF:
+      throw std::runtime_error("Ipv6MacAddress: Bad file descriptor");
+
+    case EFAULT:
+      throw std::runtime_error("Ipv6MacAddress: Bad address");
+
+    case EINVAL:
+      throw std::runtime_error("Ipv6MacAddress: Invalid argument");
+
+    case ENODEV:
+      throw std::runtime_error("Ipv6MacAddress: No such device");
+
+    case ENOTTY:
+      throw std::runtime_error(
+          "Ipv6MacAddress: Inappropriate ioctl for device");
+
+    case ENXIO:
+      throw std::runtime_error("Ipv6MacAddress: No such device or address");
+
+    default:
+      throw std::runtime_error("Ipv6MacAddress: " + std::to_string(errno));
+    }
   }
 
   unsigned char *mac =
