@@ -61,7 +61,8 @@ int NetUtils::IPv4::Ipv4IndexInterface(std::string interface) {
       throw std::runtime_error("Ipv4IndexInterface: Timer expired");
 
     default:
-      throw std::runtime_error("Ipv4IndexInterface: " + std::to_string(errno));
+      throw std::runtime_error(
+          std::format("Ipv4IndexInterface: {}", std::to_string(errno)));
     }
   }
 
