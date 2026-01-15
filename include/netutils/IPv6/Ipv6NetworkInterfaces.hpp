@@ -1,5 +1,7 @@
 #pragma once
+#include <format>
 #include <ifaddrs.h>
+#include <stdexcept>
 #include <string>
 #include <sys/socket.h>
 #include <vector>

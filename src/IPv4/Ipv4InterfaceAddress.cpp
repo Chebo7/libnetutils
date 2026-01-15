@@ -2,10 +2,41 @@
 
 std::string NetUtils::IPv4::Ipv4InterfaceAddress(const std::string interface) {
 
+  if (interface.empty()) {
+    throw std::runtime_error(
+        "Ipv4InterfaceAddress: The interface name is empty");
+  }
+
+  if (interface.size() >= IFNAMSIZ) {
+    throw std::runtime_error("Ipv4InterfaceAddress: Interface name too large");
+  }
+
   struct ifaddrs *ifaddr, *ifa;
 
   if (getifaddrs(&ifaddr) == -1) {
-    throw std::runtime_error("Unable to get network interfaces");
+    freeifaddrs(ifaddr);
+    switch (errno) {
+    case ENOMEM:
+      throw std::runtime_error("Ipv4InterfaceAddress: Cannot allocate memory");
+
+    case EFAULT:
+      throw std::runtime_error("Ipv4InterfaceAddress: Bad address");
+
+    case EAFNOSUPPORT:
+      throw std::runtime_error(
+          "Ipv4InterfaceAddress: Address family not supported by protocol");
+
+    case EINTR:
+      throw std::runtime_error("Ipv4InterfaceAddress: Interrupted system call");
+
+    case ENFILE:
+      throw std::runtime_error(
+          "Ipv4InterfaceAddress: Too many open files in system");
+
+    default:
+      throw std::runtime_error(
+          std::format("Ipv4InterfaceAddress: {}", std::to_string(errno)));
+    }
   }
 
   struct sockaddr_in *ipv4Addr = nullptr;
@@ -21,11 +52,12 @@ std::string NetUtils::IPv4::Ipv4InterfaceAddress(const std::string interface) {
 
   if (!interfaceIsFound) {
     freeifaddrs(ifaddr);
-    throw std::runtime_error("Interface not found");
+    throw std::runtime_error("Ipv4InterfaceAddress: Interface not found");
   }
 
   if (ipv4Addr == nullptr) {
-    std::runtime_error("The interface has no address");
+    freeifaddrs(ifaddr);
+    std::runtime_error("Ipv4InterfaceAddress: The interface has no address");
   }
 
   char ipStr[INET_ADDRSTRLEN];

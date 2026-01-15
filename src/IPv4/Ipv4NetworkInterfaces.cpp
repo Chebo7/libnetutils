@@ -5,7 +5,29 @@ std::vector<std::string> NetUtils::IPv4::Ipv4NetworkInterfaces() {
 
   if (getifaddrs(&ifaddr) == -1) {
     freeifaddrs(ifaddr);
-    throw "Unable to get network interfaces";
+    switch (errno) {
+    case ENOMEM:
+      throw std::runtime_error("Ipv4NetworkInterfaces: Cannot allocate memory");
+
+    case EFAULT:
+      throw std::runtime_error("Ipv4NetworkInterfaces: Bad address");
+
+    case EAFNOSUPPORT:
+      throw std::runtime_error(
+          "Ipv4NetworkInterfaces: Address family not supported by protocol");
+
+    case EINTR:
+      throw std::runtime_error(
+          "Ipv4NetworkInterfaces: Interrupted system call");
+
+    case ENFILE:
+      throw std::runtime_error(
+          "Ipv4NetworkInterfaces: Too many open files in system");
+
+    default:
+      throw std::runtime_error(
+          std::format("Ipv4NetworkInterfaces: {}", std::to_string(errno)));
+    }
   }
 
   std::vector<std::string> interfaces;

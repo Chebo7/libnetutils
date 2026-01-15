@@ -2,6 +2,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <ifaddrs.h>
+#include <net/if.h>
 #include <netinet/in.h>
 #include <stdexcept>
 #include <string>
