@@ -33,7 +33,5 @@ std::string NetUtils::IPv4::Ipv4InterfaceAddress(const std::string interface) {
   char ipAddrChar[INET_ADDRSTRLEN];
   inet_ntop(AF_INET, &addr->sin_addr, ipAddrChar, INET_ADDRSTRLEN);
 
-  std::string ipAddrStr = ipAddrChar;
-
-  return ipAddrStr;
+  return ipAddrChar;
 }
