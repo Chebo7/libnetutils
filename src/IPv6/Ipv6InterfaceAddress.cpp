@@ -1,4 +1,6 @@
 #include "../../include/netutils/IPv6/Ipv6InterfaceAddress.hpp"
+#include "../../include/netutils/Socket/SmartSocket.hpp"
+#include "../../include/netutils/Utils/ThrowSystemError.hpp"
 
 std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
 
@@ -11,62 +13,26 @@ std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
     throw std::runtime_error("Ipv6InterfaceAddress: Interface name too large");
   }
 
-  struct ifaddrs *ifaddr, *ifa;
+  NetUtils::Socket::SmartSocket sock(AF_INET6, SOCK_DGRAM, 0);
 
-  if (getifaddrs(&ifaddr) == -1) {
-    freeifaddrs(ifaddr);
-    switch (errno) {
-    case ENOMEM:
-      throw std::runtime_error("Ipv6InterfaceAddress: Cannot allocate memory");
-
-    case EFAULT:
-      throw std::runtime_error("Ipv6InterfaceAddress: Bad address");
-
-    case EAFNOSUPPORT:
-      throw std::runtime_error(
-          "Ipv6InterfaceAddress: Address family not supported by protocol");
-
-    case EINTR:
-      throw std::runtime_error("Ipv6InterfaceAddress: Interrupted system call");
-
-    case ENFILE:
-      throw std::runtime_error(
-          "Ipv6InterfaceAddress: Too many open files in system");
-
-    default:
-      throw std::runtime_error(
-          std::format("Ipv6InterfaceAddress: {}", std::to_string(errno)));
-    }
+  if (sock.getFd() == -1) {
+    throw std::runtime_error("Ipv6InterfaceAddress: Error to create socket");
   }
 
-  struct sockaddr_in6 *ipv6Addr = nullptr;
-  bool interfaceIsFound = false;
+  struct ifreq ifr;
+  memset(&ifr, 0, sizeof(ifr));
 
-  for (ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next) {
-    if (ifa->ifa_addr != nullptr && ifa->ifa_addr->sa_family == AF_INET6 &&
-        strcmp(ifa->ifa_name, interface.c_str()) == 0) {
-      ipv6Addr = (struct sockaddr_in6 *)ifa->ifa_addr;
-      interfaceIsFound = true;
-    }
+  strncpy(ifr.ifr_ifrn.ifrn_name, interface.c_str(), IFNAMSIZ);
+  ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
+
+  if (ioctl(sock, SIOCGIFADDR, &ifr) == -1) {
+    NetUtils::Utils::ThrowSystemError("Ipv6InterfaceAddress", errno);
   }
 
-  if (!interfaceIsFound) {
-    freeifaddrs(ifaddr);
-    throw std::runtime_error("Ipv6InterfaceAddress: Interface not found");
-  }
+  struct sockaddr_in6 *addr6 = (struct sockaddr_in6 *)&ifr.ifr_ifru.ifru_addr;
+  char ipAddrChar[INET6_ADDRSTRLEN];
 
-  if (ipv6Addr == nullptr) {
-    freeifaddrs(ifaddr);
-    throw std::runtime_error(
-        "Ipv6InterfaceAddress: The interface has no address");
-  }
+  inet_ntop(AF_INET6, &addr6->sin6_addr, ipAddrChar, INET6_ADDRSTRLEN);
 
-  char ipStr[INET6_ADDRSTRLEN];
-  inet_ntop(AF_INET6, &(ipv6Addr->sin6_addr), ipStr, INET6_ADDRSTRLEN);
-
-  std::string address = ipStr;
-
-  freeifaddrs(ifaddr);
-
-  return address;
+  return ipAddrChar;
 }
