@@ -1,4 +1,6 @@
 #include "../../include/netutils/IPv6/Ipv6InterfaceAddress.hpp"
+#include "../../include/netutils/Socket/SmartSocket.hpp"
+#include "../../include/netutils/Utils/ThrowSystemError.hpp"
 
 std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
 
@@ -15,28 +17,7 @@ std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
 
   if (getifaddrs(&ifaddr) == -1) {
     freeifaddrs(ifaddr);
-    switch (errno) {
-    case ENOMEM:
-      throw std::runtime_error("Ipv6InterfaceAddress: Cannot allocate memory");
-
-    case EFAULT:
-      throw std::runtime_error("Ipv6InterfaceAddress: Bad address");
-
-    case EAFNOSUPPORT:
-      throw std::runtime_error(
-          "Ipv6InterfaceAddress: Address family not supported by protocol");
-
-    case EINTR:
-      throw std::runtime_error("Ipv6InterfaceAddress: Interrupted system call");
-
-    case ENFILE:
-      throw std::runtime_error(
-          "Ipv6InterfaceAddress: Too many open files in system");
-
-    default:
-      throw std::runtime_error(
-          std::format("Ipv6InterfaceAddress: {}", std::to_string(errno)));
-    }
+    NetUtils::Utils::ThrowSystemError("Ipv6InterfaceAddress", errno);
   }
 
   struct sockaddr_in6 *ipv6Addr = nullptr;

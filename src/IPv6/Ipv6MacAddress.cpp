@@ -1,5 +1,6 @@
 #include "../../include/netutils/IPv6/Ipv6MacAddress.hpp"
 #include "../../include/netutils/Socket/SmartSocket.hpp"
+#include "../../include/netutils/Utils/ThrowSystemError.hpp"
 
 std::string NetUtils::IPv6::Ipv6MacAddress(const std::string interface) {
 
@@ -24,29 +25,7 @@ std::string NetUtils::IPv6::Ipv6MacAddress(const std::string interface) {
   ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
 
   if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
-    switch (errno) {
-    case EBADF:
-      throw std::runtime_error("Ipv6MacAddress: Bad file descriptor");
-
-    case EFAULT:
-      throw std::runtime_error("Ipv6MacAddress: Bad address");
-
-    case EINVAL:
-      throw std::runtime_error("Ipv6MacAddress: Invalid argument");
-
-    case ENODEV:
-      throw std::runtime_error("Ipv6MacAddress: No such device");
-
-    case ENOTTY:
-      throw std::runtime_error(
-          "Ipv6MacAddress: Inappropriate ioctl for device");
-
-    case ENXIO:
-      throw std::runtime_error("Ipv6MacAddress: No such device or address");
-
-    default:
-      throw std::runtime_error("Ipv6MacAddress: " + std::to_string(errno));
-    }
+    NetUtils::Utils::ThrowSystemError("Ipv6MacAddress", errno);
   }
 
   unsigned char *mac =
