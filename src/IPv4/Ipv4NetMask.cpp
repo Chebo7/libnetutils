@@ -1,5 +1,6 @@
 #include "../../include/netutils/IPv4/Ipv4NetMask.hpp"
 #include "../../include/netutils/Socket/SmartSocket.hpp"
+#include "../../include/netutils/Utils/ThrowSystemError.hpp"
 
 std::string NetUtils::IPv4::Ipv4NetMask(const std::string interface) {
 
@@ -24,23 +25,7 @@ std::string NetUtils::IPv4::Ipv4NetMask(const std::string interface) {
   ifr.ifr_ifrn.ifrn_name[IFNAMSIZ - 1] = '\0';
 
   if (ioctl(sock, SIOCGIFNETMASK, &ifr) == -1) {
-    switch (errno) {
-    case ENODEV:
-      throw std::runtime_error("Ipv4NetMask: No such device");
-
-    case EBADF:
-      throw std::runtime_error("Ipv4NetMask: Bad file descriptor");
-
-    case EFAULT:
-      throw std::runtime_error("Ipv4NetMask: Bad address");
-
-    case ENXIO:
-      throw std::runtime_error("Ipv4IndexInterface: No such device or address");
-
-    default:
-      throw std::runtime_error(
-          std::format("Ipv4NetMask: {}", std::to_string(errno)));
-    }
+    NetUtils::Utils::ThrowSystemError("Ipv4NetMask", errno);
   }
 
   struct sockaddr_in *sckddr =
