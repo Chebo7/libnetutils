@@ -1,6 +1,5 @@
 #include "../../include/netutils/IPv6/Ipv6NetworkInterfaces.hpp"
 #include "../../include/netutils/Utils/ThrowSystemError.hpp"
-#include <cerrno>
 
 std::vector<std::string> NetUtils::IPv6::Ipv6NetworkInterfaces() {
   struct ifaddrs *ifaddr, *ifa;
@@ -21,5 +20,4 @@ std::vector<std::string> NetUtils::IPv6::Ipv6NetworkInterfaces() {
   freeifaddrs(ifaddr);
 
   return interfaces;
-}
 }

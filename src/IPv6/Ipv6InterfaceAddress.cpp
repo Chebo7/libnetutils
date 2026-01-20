@@ -26,7 +26,7 @@ std::string NetUtils::IPv6::Ipv6InterfaceAddress(const std::string interface) {
   for (ifa = ifaddr; ifa != nullptr; ifa = ifa->ifa_next) {
     if (ifa->ifa_addr != nullptr && ifa->ifa_addr->sa_family == AF_INET6 &&
         strcmp(ifa->ifa_name, interface.c_str()) == 0) {
-      ipv6Addr = (struct sockaddr_in6 *)ifa->ifa_addr;
+      ipv6Addr = reinterpret_cast<struct sockaddr_in6 *>(ifa->ifa_addr);
       interfaceIsFound = true;
     }
   }
